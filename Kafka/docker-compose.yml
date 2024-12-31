@@ -1,6 +1,8 @@
 # https://hub.docker.com/r/apache/kafka
 # https://github.com/apache/kafka/blob/trunk/docker/jvm/Dockerfile
 
+# note that network architecture cannot be changed as doing so will cause failure to communicate (from own tests)
+name: kafka
 services:
   controller-1:
     image: apache/kafka:latest

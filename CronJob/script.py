@@ -10,22 +10,24 @@ def delivery_report(err, msg):
         print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
 def main():
-    if (url := os.environ.get("CURL_URL", None)) is None:
+    now = datetime.datetime.now()
+    if (url := os.getenv("CURL_URL")) is None:
         raise Exception('environment variable "CURL_URL" is not set')
-    if (name := os.environ.get("NAME", None)) is None:
+    if (name := os.getenv("NAME")) is None:
         raise Exception('environment variable "NAME" is not set')
-    print(f'{name} executing at {datetime.datetime.now()}', flush=True)
+    print(f'{name} executing at {now}', flush=True)
 
     result = requests.get(url)
     if (data := result.json().get("current", None)) is None:
-        raise Exception(f'{name}: data cannot be retrieved ({datetime.datetime.now()})')
-    
+        raise Exception(f'{name}: data cannot be retrieved ({now})')
+    print(f'{name} recieved [{now}]: {result.json()}', flush=True)
 
-    producer = Producer({'bootstrap.servers': 'localhost:29092,localhost:39092,localhost:49092'})
+    producer = Producer({'bootstrap.servers': 'broker-1:19092,broker-2:19092,broker-3:19092'})
     producer.produce('test-topic', str(data), callback=delivery_report)
     producer.flush()
+    print(f'{name} recieved [{now}]: FINISHED', flush=True)
     # with open("/var/log/cron_job.log", "a") as f:
-    #     f.write(f"{data} produced to {name} [{datetime.datetime.now()}]\n")
+    #     f.write(f"{data} produced to {name} [{now}]\n")
 
 if __name__ == "__main__":
     main()

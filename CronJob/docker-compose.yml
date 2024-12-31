@@ -1,0 +1,14 @@
+name: cronjob
+services:
+  kafka_publisher_1:
+    image: test-cronjob
+    build: .
+    environment:
+      CURL_URL: "https://api.open-meteo.com/v1/forecast?latitude=-27.1963&longitude=152.8225&current=temperature_2m,relative_humidity_2m&models=jma_seamless"
+      NAME: "test-topic"
+    networks:
+      - kafka_default
+
+networks:
+  kafka_default:
+    external: true

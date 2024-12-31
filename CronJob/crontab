@@ -1,2 +1,0 @@
-* * * * * /usr/local/bin/python /usr/src/app/script.py >> /var/log/cron.log 2>&1
-# newline
