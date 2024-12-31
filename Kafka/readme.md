@@ -6,6 +6,18 @@
 
 A **_producer_** is a user generated program (written in **Java**, C/C++, Python, Go, .NET, Node.js, etc.) which **writes** events to the _Kafka cluster_ (returns ACK/NACK).
 
+<table>
+<tr><td>
+
+![alt text](image-1.png)
+
+</td><td>
+
+![alt text](image-2.png)
+
+</td></tr>
+</table>
+
 A **_kafka cluster_** consists of _n_ **_Broker_** nodes (single isolated **_Kafka instance_** with its own exclusive storage) and an **odd** number of **_Controller_** nodes (special _Kafka instance_ or **_ZooKeeper_** which allows for synchronization between the _broker_ nodes through cluster managment, failure detection & recovery, access control list & secrets, etc.).
 
 A **_consumer_** is a user generated program (same language support as for _producers_) which **reads** events from the _Kafka cluster_; note that it does not destroy the records during reads. _producers_ and _consumers_ are decoupled (_consumer_ does not know anything about the _producer_ and vice versa) allowing for both of them to scale independently without affecting one another.
@@ -18,6 +30,11 @@ While each _partition_ has **strict ordering** (when producing to a partition, a
 
 ![alt text](image.png)
 
-A _kafka_ **_record_** consists of (optional) **_headers_**, **_key_**:**_value_** pair (buisness relevant data), and a **_timestamp_** (creation/ingestion time)
+A _kafka_ **_record_** consists of (optional) **_headers_**, **_key_**:**_value_** pair (buisness relevant data), and a **_timestamp_** (creation/ingestion time). **_Data retention policy_** dictates how long (default: 1 week) the records are stored for inside a _partition_ (data purged per **_segment_**; files within _partitions_)
 
 _Producers_ use a partitioning strategy to assign each message to a partition (for load balancing and semantic partitioning). If no key is specified then a round-robin stategy is used; otherwise `hash(key) % #_of_partitions` (**messages with the same key will always be in order**) defines which partition the message would be sent to (custom partitioner is possible but not neccessary).
+
+If the _topic_ contains only a small number of unique keys and only the most up-to-date state is required, then a **_compacted topic_** can be used:
+![alt text](image-3.png)
+
+_Kafka_ supports **encryption in transit** (_client_-_broker_, _broker_-_broker_, _broker_-_controller_), **authentication**, and **authorization**. It does not provide **encryption at rest/storage** (natively)
