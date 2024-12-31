@@ -2,6 +2,7 @@ import os
 import requests
 import datetime
 from confluent_kafka import Producer
+# https://developer.confluent.io/get-started/python/#build-producer
 
 def delivery_report(err, msg):
     if err is not None:
