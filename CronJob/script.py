@@ -23,11 +23,9 @@ def main():
     print(f'{name} recieved [{now}]: {result.json()}', flush=True)
 
     producer = Producer({'bootstrap.servers': 'broker-1:19092,broker-2:19092,broker-3:19092'})
-    producer.produce('test-topic', str(data), callback=delivery_report)
+    producer.produce(f'{name}', str(data), callback=delivery_report)
     producer.flush()
     print(f'{name} recieved [{now}]: FINISHED', flush=True)
-    # with open("/var/log/cron_job.log", "a") as f:
-    #     f.write(f"{data} produced to {name} [{now}]\n")
 
 if __name__ == "__main__":
     main()
