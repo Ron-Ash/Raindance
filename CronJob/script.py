@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 import datetime
 from confluent_kafka import Producer
@@ -24,7 +25,7 @@ def main():
     print(f'{name} recieved [{now}]: {result.json()}', flush=True)
 
     producer = Producer({'bootstrap.servers': 'broker-1:19092,broker-2:19092,broker-3:19092'})
-    producer.produce(f'{name}', str(data), callback=delivery_report)
+    producer.produce(f'{name}', json.dumps(data), callback=delivery_report)
     producer.flush()
     print(f'{name} recieved [{now}]: FINISHED', flush=True)
 

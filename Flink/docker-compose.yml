@@ -1,0 +1,50 @@
+services:
+  jobmanager:
+    image: flink_sql_with_kafka
+    build: .
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+    networks:
+      - kafka_default
+  taskmanager:
+    image: flink_sql_with_kafka
+    build: .
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - /host/path/to/job/artifacts:/opt/flink/usrlib
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+    networks:
+      - kafka_default
+  sql-client:
+    image: flink_sql_with_kafka
+    build: .
+    command: bin/sql-client.sh
+    depends_on:
+      - jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        rest.address: jobmanager
+    networks:
+      - kafka_default
+
+networks:
+  kafka_default:
+    external: true
+# docker compose up -d
+# docker compose run sql-client
