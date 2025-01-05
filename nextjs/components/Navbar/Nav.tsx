@@ -1,27 +1,22 @@
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@nextui-org/navbar";
+import { Navbar, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import Image from "next/image";
+import NavLink from "./NavLink";
 import Link from "next/link";
 
 export default function Nav() {
-  const menuItems = ["home", "bets", "profile"];
+  const menuItems = ["Home", "Bets", "Profile"];
 
   return (
-    <Navbar shouldHideOnScroll className="p-2 justify-start">
-      <NavbarBrand>
+    <Navbar shouldHideOnScroll className="flex p-1 justify-start gap-4">
+      <Link href="/" className="hover:opacity-60">
         <Image src="/favicon.png" width={50} height={50} alt="icon" />
-        <p className="font-bold text-inherit">Raindance</p>
-      </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="start">
+      </Link>
+      <p className="font-bold text-inherit">Raindance</p>
+      <div className="border" />
+      <NavbarContent className="flex gap-4">
         {menuItems.map((path, index) => (
-          <NavbarItem key={index}>
-            <Link color="foreground" href={path}>
-              {path}
-            </Link>
+          <NavbarItem key={index} className="hover:opacity-60">
+            <NavLink href={path} />
           </NavbarItem>
         ))}
       </NavbarContent>
