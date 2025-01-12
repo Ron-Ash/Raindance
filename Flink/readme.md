@@ -50,15 +50,15 @@ CREATE TABLE Shipments (
     item    STRING,
     count   INT,
 ) WITH (
-    connector='kafka',
-    topic='shipments',
-    value.format='json',
-    properties.group.id='myGroup',
-    scan.startup.mode='latest-offset',
-    properties.bootstrap.servers='XXX',
-    Properties.security.protocol='SASL_SSL',
-    Properties.sasl.mechanism='PLAIN',
-    Properties.sasl.jaas.config='XXX'
+    'connector'='kafka',
+    'topic'='shipments',
+    'value.format'='json',
+    'properties.group.id'='myGroup',
+    'scan.startup.mode'='latest-offset',
+    'properties.bootstrap.servers'='XXX',
+    'Properties.security.protocol'='SASL_SSL',
+    'Properties.sasl.mechanism'='PLAIN',
+    'Properties.sasl.jaas.config'='XXX'
 )
 ```
 
@@ -74,7 +74,9 @@ In _Flink SQL_ there exists a stream/table duality; "tables" are _dynamic tables
 
 ![alt text](image-9.png)
 
-## Flink Runtime
+The _Flink_ applications deployed by the various APIs, become **_Flink clients_** which generate the _job graphs_ for a given job and submit it to teh **_Job Manager_**. The _job manager_ will then find or create the resources required for the job (spin as many **_task manager_** nodes as needed, etc.); and Once the job is running, the _job manager_ remains responsible for coordinating the activities of teh _Flink_ cluster (checkpointing, restart, etc.). _Task managers_ provide **_task slots_** which each can process one parallel instance of the _job graph_. _Task managers_ are responsible for pulling the data from teh source, transform it, send data to each other for repartitioning and rebalancing, and push results out to the sinks.
+
+![alt text](image-10.png)
 
 ## Stateful Stream Processing
 
