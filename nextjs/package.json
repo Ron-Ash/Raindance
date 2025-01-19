@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clickhouse/client-web": "^1.10.1",
+    "@heroui/system": "^2.4.7",
+    "@heroui/table": "^2.2.9",
+    "@heroui/theme": "^2.4.6",
     "@nextui-org/button": "^2.2.8",
     "@nextui-org/link": "^2.2.6",
     "@nextui-org/navbar": "^2.2.7",
     "@nextui-org/system": "^2.4.5",
+    "@nextui-org/table": "^2.2.8",
     "@nextui-org/tabs": "^2.2.6",
     "@nextui-org/theme": "^2.4.4",
     "framer-motion": "^11.15.0",
