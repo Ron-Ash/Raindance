@@ -10,7 +10,7 @@ export default function Map({ children }: { children: ReactNode }) {
   const [tileType, setTileType] = useState<string>("Satellite");
 
   return (
-    <div className="w-full h-[86svh] rounded-xl overflow-hidden">
+    <div className="relative w-full h-[85vh] rounded-xl overflow-hidden">
       <div className="absolute z-10 p-2">
         <Tabs
           selectedKey={tileType}

@@ -39,7 +39,7 @@ export default function LocationTable({
   }, []);
 
   return (
-    <div className="absolute bottom-4 left-5 z-10 p-2 backdrop-blur-md rounded-lg max-h-[300px] max-w-[400px] overflow-auto">
+    <div className="absolute bottom-2 left-2 z-10 p-2 backdrop-blur-md rounded-lg max-h-[300px] max-w-[400px] overflow-auto">
       <Table
         isHeaderSticky
         removeWrapper
