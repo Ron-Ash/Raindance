@@ -9,7 +9,13 @@ export default function Nav() {
   return (
     <Navbar shouldHideOnScroll className="flex p-1 justify-start gap-4">
       <Link href="/" className="hover:opacity-60">
-        <Image src="/favicon.png" width={50} height={50} alt="icon" />
+        <Image
+          src="/favicon.png"
+          width={50}
+          height={50}
+          alt="icon"
+          priority={true}
+        />
       </Link>
       <p className="font-bold text-inherit">Raindance</p>
       <div className="border" />

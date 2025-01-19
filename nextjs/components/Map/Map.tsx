@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LatLngBounds } from "leaflet";

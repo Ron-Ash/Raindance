@@ -1,9 +1,35 @@
-export default function Page() {
+import LocationTable from "@/components/LocationTable/LocationTable";
+import DynamicMap from "@/components/Map/DynamicMap";
+import { createClient } from "@clickhouse/client-web";
+
+export default async function Page() {
+  async function handleRetrieveCities() {
+    "use server";
+
+    const client = createClient({
+      url: process.env.CLICKHOUSE_HOST ?? "http://localhost:8123",
+      username: process.env.CLICKHOUSE_USER ?? "user",
+      password: process.env.CLICKHOUSE_PASSWORD ?? "password",
+    });
+
+    const rows = await client.query({
+      query: "select * from location;",
+      format: "JSONEachRow",
+    });
+
+    const data = await rows.json();
+    console.log(data);
+    return data;
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        home
-      </main>
+    <div className="lg:grid grid-cols-4 p-4 gap-4">
+      <LocationTable handleRetrieveCitiesF={handleRetrieveCities} />
+      <div className="col-span-3 w-full h-[600px] rounded-xl overflow-hidden">
+        <DynamicMap>
+          <div />
+        </DynamicMap>
+      </div>
     </div>
   );
 }
