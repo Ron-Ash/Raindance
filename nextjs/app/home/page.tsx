@@ -7,7 +7,7 @@ interface locationData {
   city: string;
   country: string;
   latitude: number;
-  logitude: number;
+  longitude: number;
 }
 
 export default async function Page() {
