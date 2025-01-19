@@ -44,7 +44,7 @@ export default function LocationTable({
       aria-label="Example static collection table"
       color="primary"
       selectionMode="single"
-      onSelectionChange={handleSelection}
+      onSelectionChange={(keys) => handleSelection(keys as Set<string>)}
     >
       <TableHeader>
         <TableColumn>NAME</TableColumn>

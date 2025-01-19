@@ -2,6 +2,13 @@ import LocationTable from "@/components/LocationTable/LocationTable";
 import DynamicMap from "@/components/Map/DynamicMap";
 import { createClient } from "@clickhouse/client-web";
 
+interface locationData {
+  city: string;
+  country: string;
+  latitude: number;
+  logitude: number;
+}
+
 export default async function Page() {
   async function handleRetrieveCities() {
     "use server";
@@ -19,7 +26,7 @@ export default async function Page() {
 
     const data = await rows.json();
     console.log(data);
-    return data;
+    return data as locationData[];
   }
 
   return (
