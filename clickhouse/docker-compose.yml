@@ -1,0 +1,17 @@
+name: clickhouse
+services:
+  server:
+    image: clickhouse
+    ports:
+      - 8123:8123
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: user
+      CLICKHOUSE_PASSWORD: password
+
+volumes:
+  clickhouse_data:
+  clickhouse_logs:
