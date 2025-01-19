@@ -1,4 +1,5 @@
 "use client";
+import { useLocation, useLocations } from "@/context/locationContext";
 import {
   Table,
   TableHeader,
@@ -13,7 +14,7 @@ interface locationData {
   city: string;
   country: string;
   latitude: number;
-  logitude: number;
+  longitude: number;
 }
 
 export default function LocationTable({
@@ -22,21 +23,26 @@ export default function LocationTable({
   handleRetrieveCitiesF: () => Promise<locationData[]>;
 }) {
   const [loading, setLoading] = useState(true);
-  const [cities, setCities] = useState<locationData[]>([]);
-
-  function handleSelection(keys: Set<string>) {
-    console.log(keys.entries().next().value?.[0]);
-  }
+  const { location, setLocation } = useLocations();
+  const { setPickedLocation } = useLocation();
 
   useEffect(() => {
     async function handleRetrieveCities() {
       const data = await handleRetrieveCitiesF();
-      setCities(data);
+      setLocation(data);
       setLoading(false);
     }
     setLoading(true);
     handleRetrieveCities();
   }, []);
+
+  function handleSelection(keys: Set<string>) {
+    setPickedLocation(
+      location[
+        (keys.entries().next().value?.[0] ?? "null") as unknown as number
+      ]
+    );
+  }
 
   return (
     <div className="absolute bottom-2 left-2 z-10 p-2 backdrop-blur-md rounded-lg max-h-[300px] max-w-[400px] overflow-auto">
@@ -55,7 +61,7 @@ export default function LocationTable({
         </TableHeader>
         <TableBody className="text-white">
           {!loading
-            ? cities?.map((city, index) => (
+            ? location?.map((city, index) => (
                 <TableRow
                   key={index}
                   className="cursor-pointer hover:text-black "

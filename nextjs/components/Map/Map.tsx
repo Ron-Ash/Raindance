@@ -1,10 +1,11 @@
 "use client";
 
-import { ReactNode, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { ReactNode, useEffect, useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LatLngBounds } from "leaflet";
+import { icon, LatLng, LatLngBounds, LeafletMouseEvent } from "leaflet";
 import { Tab, Tabs } from "@nextui-org/tabs";
+import { useLocation, useLocations } from "@/context/locationContext";
 
 export default function Map({ children }: { children: ReactNode }) {
   const [tileType, setTileType] = useState<string>("Satellite");
@@ -49,8 +50,54 @@ export default function Map({ children }: { children: ReactNode }) {
           minZoom={3}
           url={tileType}
         />
+        <LocationMarkers />
       </MapContainer>
       {children}
     </div>
+  );
+}
+
+function LocationMarkers() {
+  const map = useMap();
+  const { location } = useLocations();
+  const { pickedLocation } = useLocation();
+
+  useEffect(() => {
+    if (pickedLocation != undefined) {
+      map.flyTo(
+        new LatLng(pickedLocation.latitude, pickedLocation.longitude),
+        16
+      );
+    }
+  }, [map, pickedLocation]);
+
+  function HandleClick(e: LeafletMouseEvent) {
+    map.flyTo(e.latlng, 16);
+  }
+
+  return (
+    <>
+      {location.map((city, index) => (
+        <Marker
+          key={index}
+          eventHandlers={{
+            dblclick(e) {
+              HandleClick(e);
+            },
+          }}
+          icon={icon({
+            iconUrl: "marker.webp",
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32],
+          })}
+          position={[city.latitude, city.longitude]}
+        >
+          <Popup>
+            {city.city}, {city.country}
+          </Popup>
+        </Marker>
+      ))}
+    </>
   );
 }

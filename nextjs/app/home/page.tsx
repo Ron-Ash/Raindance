@@ -1,5 +1,6 @@
 import LocationTable from "@/components/LocationTable/LocationTable";
 import DynamicMap from "@/components/Map/DynamicMap";
+import { LocationProvider } from "@/context/locationContext";
 import { createClient } from "@clickhouse/client-web";
 
 interface locationData {
@@ -30,9 +31,11 @@ export default async function Page() {
 
   return (
     <div className="p-4 gap-4">
-      <DynamicMap>
-        <LocationTable handleRetrieveCitiesF={handleRetrieveCities} />
-      </DynamicMap>
+      <LocationProvider>
+        <DynamicMap>
+          <LocationTable handleRetrieveCitiesF={handleRetrieveCities} />
+        </DynamicMap>
+      </LocationProvider>
     </div>
   );
 }
