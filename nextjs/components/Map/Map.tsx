@@ -49,8 +49,8 @@ export default function Map({ children }: { children: ReactNode }) {
           minZoom={3}
           url={tileType}
         />
-        {children}
       </MapContainer>
+      {children}
     </div>
   );
 }

@@ -25,18 +25,14 @@ export default async function Page() {
     });
 
     const data = await rows.json();
-    console.log(data);
     return data as locationData[];
   }
 
   return (
-    <div className="lg:grid grid-cols-4 p-4 gap-4">
-      <LocationTable handleRetrieveCitiesF={handleRetrieveCities} />
-      <div className="col-span-3 w-full h-[600px] rounded-xl overflow-hidden">
-        <DynamicMap>
-          <div />
-        </DynamicMap>
-      </div>
+    <div className="p-4 gap-4">
+      <DynamicMap>
+        <LocationTable handleRetrieveCitiesF={handleRetrieveCities} />
+      </DynamicMap>
     </div>
   );
 }
