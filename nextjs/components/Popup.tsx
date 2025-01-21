@@ -17,7 +17,7 @@ export default function Popup({
       animate={{
         transform: `translateX(${active ? "0%" : "100%"})`,
       }}
-      className="absolute top-0 right-0 z-50 border-2 backdrop-blur-xl rounded-l-3xl h-[100vh] w-3/12 grid grid-cols-1 p-4 gap-4"
+      className="absolute top-0 right-0 z-50 bg-blue-500 bg-opacity-40 backdrop-blur-md rounded-l-3xl h-[100vh] w-3/12 grid grid-cols-1 p-4 gap-4"
     >
       {children}
     </motion.div>

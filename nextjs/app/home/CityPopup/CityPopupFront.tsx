@@ -20,6 +20,7 @@ export default function CityPopupFront() {
     <Popup active={open}>
       <>
         <div className="font-extrabold text-5xl"> Brisbane</div>
+        <img src={"/brisbane.jpg"} alt={"image"} className="rounded-xl" />
         <p>
           Brisbane, capital of Queensland, is a large city on the Brisbane
           River. Clustered in its South Bank cultural precinct are the
@@ -28,15 +29,26 @@ export default function CityPopupFront() {
           Modern Art, among Australia's major contemporary art museums. Looming
           over the city is Mt. Coot-tha, site of Brisbane Botanic Gardens.
         </p>
-        <img src={"/brisbane.jpg"} alt={"image"} className="rounded-xl" />
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <div className="grid grid-cols-2 p-2 gap-4">
-          <button className="border-2 rounded-lg p-2">Cancel</button>
-          <button className="border-2 rounded-lg p-2">Explore Weather</button>
-        </div>
+        <button
+          className="absolute top-1 right-1"
+          onClick={() => setOpen(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </button>
+        <button className="border-2 rounded-lg p-2">Explore Weather</button>
       </>
     </Popup>
   );
