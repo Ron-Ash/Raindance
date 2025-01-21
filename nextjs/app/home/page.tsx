@@ -2,6 +2,7 @@ import LocationTable from "@/components/LocationTable/LocationTable";
 import DynamicMap from "@/components/Map/DynamicMap";
 import { LocationProvider } from "@/context/locationContext";
 import { createClient } from "@clickhouse/client-web";
+import CityPopupFront from "./CityPopup/CityPopupFront";
 
 interface locationData {
   city: string;
@@ -35,6 +36,7 @@ export default async function Page() {
         <DynamicMap>
           <LocationTable handleRetrieveCitiesF={handleRetrieveCities} />
         </DynamicMap>
+        <CityPopupFront />
       </LocationProvider>
     </div>
   );
