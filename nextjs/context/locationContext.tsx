@@ -13,6 +13,8 @@ interface locationData {
   country: string;
   latitude: number;
   longitude: number;
+  bio: string;
+  imgPath: string;
 }
 
 const LocationContext = createContext<{

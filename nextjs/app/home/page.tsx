@@ -9,6 +9,8 @@ interface locationData {
   country: string;
   latitude: number;
   longitude: number;
+  bio: string;
+  imgPath: string;
 }
 
 export default async function Page() {

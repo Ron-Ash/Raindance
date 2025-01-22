@@ -2,6 +2,7 @@
 
 import Popup from "@/components/Popup";
 import { useLocation } from "@/context/locationContext";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function CityPopupFront() {
@@ -18,38 +19,46 @@ export default function CityPopupFront() {
 
   return (
     <Popup active={open}>
-      <>
-        <div className="font-extrabold text-5xl"> Brisbane</div>
-        <img src={"/brisbane.jpg"} alt={"image"} className="rounded-xl" />
-        <p>
-          Brisbane, capital of Queensland, is a large city on the Brisbane
-          River. Clustered in its South Bank cultural precinct are the
-          Queensland Museum and Sciencentre, with noted interactive exhibitions.
-          Another South Bank cultural institution is Queensland Gallery of
-          Modern Art, among Australia's major contemporary art museums. Looming
-          over the city is Mt. Coot-tha, site of Brisbane Botanic Gardens.
-        </p>
-        <button
-          className="absolute top-1 right-1"
-          onClick={() => setOpen(false)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      {pickedLocation && (
+        <>
+          <div className="font-extrabold text-5xl pb-4">
+            {pickedLocation?.city}
+          </div>
+          <div className="rounded-xl h-[200px] flex items-center justify-center overflow-hidden">
+            <Image
+              alt={"image"}
+              width={1000}
+              height={150}
+              priority={true}
+              src={pickedLocation?.imgPath ?? ""}
             />
-          </svg>
-        </button>
-        <button className="border-2 rounded-lg p-2">Explore Weather</button>
-      </>
+          </div>
+          <p className="pt-4">{pickedLocation?.bio}</p>
+
+          <button
+            className="absolute top-1 right-1"
+            onClick={() => setOpen(false)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+          <button className="absolute justify-self-center bottom-2 h-[50px] w-[95%] border-2 rounded-l-2xl rounded-r-md p-2 bg-blue-500 bg-opacity-0 hover:bg-opacity-100 ease-in-out duration-250 hover:border-blue-500">
+            Explore Weather
+          </button>
+        </>
+      )}
     </Popup>
   );
 }

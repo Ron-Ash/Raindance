@@ -15,6 +15,8 @@ interface locationData {
   country: string;
   latitude: number;
   longitude: number;
+  bio: string;
+  imgPath: string;
 }
 
 export default function LocationTable({
@@ -45,7 +47,7 @@ export default function LocationTable({
   }
 
   return (
-    <div className="absolute bottom-2 left-2 z-10 p-2 backdrop-blur-md rounded-lg max-h-[300px] max-w-[400px] overflow-auto">
+    <div className="absolute bottom-2 left-2 z-10 p-2 backdrop-blur-md rounded-lg max-h-[300px] max-w-[400px] overflow-auto ">
       <Table
         isHeaderSticky
         removeWrapper
@@ -59,13 +61,10 @@ export default function LocationTable({
           <TableColumn>ROLE</TableColumn>
           <TableColumn>STATUS</TableColumn>
         </TableHeader>
-        <TableBody className="text-white">
+        <TableBody>
           {!loading
             ? location?.map((city, index) => (
-                <TableRow
-                  key={index}
-                  className="cursor-pointer hover:text-black "
-                >
+                <TableRow key={index} className="cursor-pointer text-blue-500">
                   <TableCell>{city?.city ?? ""}</TableCell>
                   <TableCell>{city?.country ?? ""}</TableCell>
                   <TableCell>Active</TableCell>
