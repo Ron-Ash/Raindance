@@ -1,4 +1,4 @@
-import LocationTable from "@/components/LocationTable/LocationTable";
+import LocationTable from "@/app/Home/LocationTable";
 import DynamicMap from "@/components/Map/DynamicMap";
 import { LocationProvider } from "@/context/locationContext";
 import { createClient } from "@clickhouse/client-web";

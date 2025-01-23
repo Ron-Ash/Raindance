@@ -54,7 +54,7 @@ export default function CityPopupFront() {
               />
             </svg>
           </button>
-          <button className="absolute justify-self-center bottom-2 h-[50px] w-[95%] border-2 rounded-l-2xl rounded-r-md p-2 bg-blue-500 bg-opacity-0 hover:bg-opacity-100 ease-in-out duration-250 hover:border-blue-500">
+          <button className="absolute bottom-2 h-[50px] w-[92%] border-2 rounded-l-2xl rounded-r-md bg-blue-500 bg-opacity-0 hover:bg-opacity-100 ease-in-out duration-250 hover:border-blue-500">
             Explore Weather
           </button>
         </>
