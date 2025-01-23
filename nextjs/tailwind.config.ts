@@ -8,7 +8,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/components/(button|link|navbar|table|tabs|ripple|spinner|checkbox|form|spacer).js",
-    "./node_modules/@heroui/theme/dist/components/(table|checkbox|form|spacer).js"
+    "./node_modules/@heroui/theme/dist/components/(spinner|table|checkbox|form|spacer).js"
   ],
   theme: {
     extend: {

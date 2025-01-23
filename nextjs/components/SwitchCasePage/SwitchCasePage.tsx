@@ -12,7 +12,7 @@ export default function SwitchCasePage({
   chosenOption: string;
 }) {
   return (
-    <div className="border-5">
+    <div>
       {Object.entries(options)
         .filter(([name, node]) => name === chosenOption && node != undefined)
         .map((option) => option[1]) ?? <div />}
