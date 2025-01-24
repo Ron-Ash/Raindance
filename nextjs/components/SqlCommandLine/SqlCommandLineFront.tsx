@@ -96,7 +96,7 @@ export default function SqlCommandLine({
   }
 
   return (
-    <div className="relative ">
+    <div className="relative h-[80vh]">
       <button
         className="absolute z-20 top-1 right-1 flex bg-orange-500 rounded-xl p-1 align-middle bg-opacity-75 hover:bg-opacity-100"
         onClick={executeCommand}
