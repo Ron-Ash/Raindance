@@ -14,24 +14,43 @@ function splitIntoChunks(str: string, chunkSize: number) {
 function processData(data: string[][], chunkSize: number) {
   if (data.length === 2 && data[1].length === 1) return data[1][0];
 
+  const pivot: string[][] = [];
+  for (
+    let i = 0;
+    i < data.reduce((max, row) => (row.length > max ? row.length : max), 0);
+    i += 1
+  ) {
+    const tmp: string[] = [];
+    for (let j = 0; j < data.length; j += 1) {
+      tmp.push(data[j][i]);
+    }
+    pivot.push(tmp);
+  }
+
+  const max_length = pivot
+    .map((col) =>
+      col.reduce((max, entry) => (entry.length > max ? entry.length : max), 0)
+    )
+    .map((max) => (max >= chunkSize ? chunkSize : max));
+
   const split = data.map((row) =>
-    row.map((entry) => splitIntoChunks(entry, chunkSize))
+    row.map((entry, index) => splitIntoChunks(entry, max_length[index]))
   );
 
   const rows = split.map((row) => {
-    const max = row.reduce(
+    const max_height = row.reduce(
       (max, entry) => (entry.length > max ? entry.length : max),
       0
     );
     const result = [];
-    for (let i = 0; i < max; i += 1) {
+    for (let i = 0; i < max_height; i += 1) {
       const tmp = [];
       for (let j = 0; j < row.length; j += 1) {
-        tmp.push(
+        const value =
           row[j].length > i
-            ? `${row[j][i]}${" ".repeat(chunkSize - row[j][i].length)}`
-            : " ".repeat(chunkSize)
-        );
+            ? `${row[j][i]}${" ".repeat(max_length[j] - row[j][i].length)}`
+            : " ".repeat(max_length[j]);
+        tmp.push(value);
       }
       result.push(`| ${tmp.join(" | ")} |`);
     }

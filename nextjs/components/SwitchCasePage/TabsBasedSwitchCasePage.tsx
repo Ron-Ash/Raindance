@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-import SwitchCasePage from "./SwitchCasePage";
 import { Tab, Tabs } from "@nextui-org/tabs";
 
 interface pageOptions {
@@ -17,7 +16,7 @@ export default function TabsBasedSwitchCasePage({
 
   return (
     <>
-      <div className="relative z-10">
+      <div className="relative z-10 pb-2">
         <Tabs
           selectedKey={key}
           onSelectionChange={(key) => setKey(String(key))}
@@ -27,7 +26,11 @@ export default function TabsBasedSwitchCasePage({
           ))}
         </Tabs>
       </div>
-      <SwitchCasePage options={options} chosenOption={key} />
+      <div>
+        {Object.entries(options)
+          .filter(([name, node]) => name === key && node != undefined)
+          .map((option) => option[1]) ?? <div />}
+      </div>
     </>
   );
 }
