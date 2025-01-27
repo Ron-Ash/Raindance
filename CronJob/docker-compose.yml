@@ -4,8 +4,8 @@ services:
     image: test-cronjob
     build: .
     environment:
-      CURL_URL: "https://api.open-meteo.com/v1/forecast?latitude=-27.1963&longitude=152.8225&current=temperature_2m,relative_humidity_2m&models=jma_seamless"
-      NAME: "test-topic"
+      CURL_URL: "https://api.open-meteo.com/v1/forecast?latitude=51.5085&longitude=-0.1257&current=temperature_2m,relative_humidity_2m,precipitation,rain,wind_speed_10m,wind_direction_10m&models=ukmo_seamless"
+      NAME: "current_weather"
     networks:
       - kafka_default
 
