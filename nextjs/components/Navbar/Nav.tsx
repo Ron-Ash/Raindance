@@ -4,7 +4,7 @@ import NavLink from "./NavLink";
 import Link from "next/link";
 
 export default function Nav() {
-  const menuItems = ["Home", "Analytics", "Weather"];
+  const menuItems = ["Home", "Analytics", "Weather", "Social"];
 
   return (
     <Navbar shouldHideOnScroll className="flex p-1 justify-start gap-4">
