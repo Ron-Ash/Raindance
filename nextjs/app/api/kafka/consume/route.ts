@@ -3,9 +3,30 @@ export const runtime = "nodejs"; // <-- force Node.js, not Edge
 
 import { Kafka } from "kafkajs";
 
+async function ensureTopic(topicName: string) {
+  const kafka = new Kafka({
+    clientId: "nextjs-app",
+    brokers: ["localhost:29092", "localhost:39092", "localhost:49092"],
+  });
+  const admin = kafka.admin();
+  await admin.connect();
+
+  const created = await admin.createTopics({
+    validateOnly: false,
+    topics: [
+      {
+        topic: topicName,
+      },
+    ],
+  });
+
+  await admin.disconnect();
+  return created; // true if created, false if it existed already
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const topic = url.searchParams.get("topic") || "test-topic";
+  const topic = url.searchParams.get("topic") ?? "test-topic";
   const kafka = new Kafka({
     clientId: "nextjs-app",
     brokers: ["localhost:29092", "localhost:39092", "localhost:49092"],
@@ -13,6 +34,7 @@ export async function GET(request: Request) {
   const consumer = kafka.consumer({ groupId: `nextjs-app-${Date.now()}` });
 
   await consumer.connect();
+  await ensureTopic(topic);
   await consumer.subscribe({ topic, fromBeginning: true });
 
   const encoder = new TextEncoder();

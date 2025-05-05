@@ -1,5 +1,5 @@
 export const runtime = "nodejs";
-import { Kafka } from "kafkajs";
+import { Kafka, Partitioners } from "kafkajs";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -8,7 +8,9 @@ export async function POST(request: Request) {
     clientId: "nextjs-app",
     brokers: ["localhost:29092", "localhost:39092", "localhost:49092"],
   });
-  const producer = kafka.producer();
+  const producer = kafka.producer({
+    createPartitioner: Partitioners.LegacyPartitioner,
+  });
   await producer.connect();
   console.log("***  KAFKA producer CONNECTED  ***");
   try {
