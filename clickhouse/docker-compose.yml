@@ -15,3 +15,4 @@ services:
 volumes:
   clickhouse_data:
   clickhouse_logs:
+# gui interface http://localhost:8123/play
