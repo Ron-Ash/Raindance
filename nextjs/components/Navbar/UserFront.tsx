@@ -5,9 +5,6 @@ import { useRouter } from "next/navigation";
 
 export default function UserFront({ session }: { session: any }) {
   const router = useRouter();
-
-  console.log(session);
-
   return (
     <Tooltip
       showArrow
