@@ -1,14 +1,21 @@
 name: cronjob
 services:
-  kafka_publisher_1:
-    image: test-cronjob
-    build: .
+  weather_data_producer:
+    image: weather_data_producer-cronjob
+    build: ./weather_data_producer
     environment:
       CURL_URL: "https://api.open-meteo.com/v1/forecast?latitude=51.5085&longitude=-0.1257&current=temperature_2m,relative_humidity_2m,precipitation,rain,wind_speed_10m,wind_direction_10m&models=ukmo_seamless"
       NAME: "current_weather"
     networks:
       - kafka_default
+  social_ranking_updater:
+    image: social_ranking_updater-cronjob
+    build: ./social_ranking_updater
+    networks:
+      - clickhouse_default
 
 networks:
   kafka_default:
+    external: true
+  clickhouse_default:
     external: true
