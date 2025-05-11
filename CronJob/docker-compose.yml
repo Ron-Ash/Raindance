@@ -11,6 +11,12 @@ services:
   social_ranking_updater:
     image: social_ranking_updater-cronjob
     build: ./social_ranking_updater
+    environment:
+      RANK_PATH: "."
+      BETA: 0.9
+      CLICKHOUSE_HOST: clickhouse-server-1
+      CLICKHOUSE_USER: user
+      CLICKHOUSE_PASSWORD: password
     networks:
       - clickhouse_default
 

@@ -40,9 +40,22 @@ def pagerank_from_previous(adjacency: pd.DataFrame, csvPath: str, beta: float, e
     return pd.DataFrame(pagerank_power_iteration(M, R, V, beta, epsilon), index=['rank'], columns=indxs)
 
 if __name__ == "__main__":
-    csvPath = f"{'.'}/rank.csv"
-    beta = 0.9
-    client = clickhouse_connect.get_client(host='localhost', port=8123, username='user', password='password')
+    print("=== START social_ranking_updater ===")
+    if (rankPath := os.getenv("RANK_PATH", ".")) is None:
+        raise Exception('environment variable "RANK_PATH" is not set')
+    csvPath = f"{rankPath}/rank.csv"
+    if (beta := os.getenv("BETA", 0.9)) is None:
+        raise Exception('environment variable "BETA" is not set or is not a float')
+    else:
+        try:
+            beta = float(beta)
+        except ValueError:
+            raise Exception('environment variable "BETA" is not is not a float')
+        
+        if beta > 1 or beta < 0:
+            raise Exception('environment variable "BETA" is not in [0,1]')
+    
+    client = clickhouse_connect.get_client(host=os.getenv("CLICKHOUSE_HOST", 'localhost'), port=8123, username=os.getenv("CLICKHOUSE_USER", 'user'), password=os.getenv("CLICKHOUSE_PASSWORD",'password'))
 
     dfs_stream = client.query_df_stream('SELECT user, follows from socialNetwork_followers;')
     adjacencies = []
@@ -63,3 +76,4 @@ if __name__ == "__main__":
     rank.reset_index(names="user", inplace=True)
     client.insert_df("socialNetwork_popularity", rank)
     client.close()
+    print("=== END social_ranking_updater ===")
