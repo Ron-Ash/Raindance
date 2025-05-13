@@ -26,8 +26,14 @@ ORDER BY (user);
 -- INSERT INTO socialNetwork_followers VALUES ('D', 'B'), ('B', 'C'), 
 -- ('C', 'B'), ('E', 'B'), ('E', 'D'), ('E', 'F'), ('F', 'E'), ('F', 'B'), ('g', 'B'), ('h', 'B'), ('i', 'B'),
 -- ('j', 'E'), ('k', 'E'), ('B', 'L'), ('i', 'L'), ('k', 'L'), ('L', 'C');
-CREATE OR REPLACE TABLE socialNetwork_popularity(
+CREATE OR REPLACE TABLE socialNetwork_userPopularity(
     user   LowCardinality(String),
     rank Decimal32(9),
+)ENGINE = ReplacingMergeTree
+ORDER BY (user);
+
+CREATE OR REPLACE TABLE socialNetwork_friendRecommendation(
+    user   LowCardinality(String),
+    recommendations Array(LowCardinality(String)) DEFAULT []
 )ENGINE = ReplacingMergeTree
 ORDER BY (user);

@@ -74,6 +74,6 @@ if __name__ == "__main__":
     rank.to_csv(csvPath)
     rank = rank.T
     rank.reset_index(names="user", inplace=True)
-    client.insert_df("socialNetwork_popularity", rank)
+    client.insert_df("socialNetwork_userPopularity", rank)
     client.close()
     print("=== END social_ranking_updater ===")

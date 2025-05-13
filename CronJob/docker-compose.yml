@@ -8,9 +8,9 @@ services:
       NAME: "current_weather"
     networks:
       - kafka_default
-  social_ranking_updater:
-    image: social_ranking_updater-cronjob
-    build: ./social_ranking_updater
+  userPopularity:
+    image: userPopularity-cronjob
+    build: ./userPopularity
     environment:
       RANK_PATH: "."
       BETA: 0.9
