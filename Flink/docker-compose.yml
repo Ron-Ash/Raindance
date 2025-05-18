@@ -9,6 +9,8 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
+        rest.address: 0.0.0.0
+        rest.port: 8081
     networks:
       - kafka_default
   taskmanager:
@@ -29,12 +31,35 @@ services:
         taskmanager.numberOfTaskSlots: 2
     networks:
       - kafka_default
+  sql-gateway:
+    image: flink_sql_with_kafka
+    build: .
+    command:
+      - bin/sql-gateway.sh
+      - start-foreground
+      - -Dsql-gateway.endpoint.rest.address=0.0.0.0
+      - -Dsql-gateway.endpoint.rest.bind-address=0.0.0.0
+      - -Dsql-gateway.endpoint.rest.port=8083
+      - -Dexecution.target=remote
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        rest.address: jobmanager
+        rest.port: 8081
+    depends_on:
+      - jobmanager
+    ports:
+      - "8083:8083"
+    networks:
+      - kafka_default
   sql-client:
     image: flink_sql_with_kafka
     build: .
-    command: bin/sql-client.sh
+    command: ["bin/sql-client.sh", "gateway", "-e", "sql-gateway:8083"]
     depends_on:
       - jobmanager
+      - sql-gateway
     environment:
       - |
         FLINK_PROPERTIES=
