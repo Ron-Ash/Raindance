@@ -64,6 +64,13 @@ class FlinkSQLGateway:
         jobs = {job["id"]: job["status"] for job in status.json().get("jobs", [])}
         return jobs
     
+    def drop_jobs(self, jobs: list[str]):
+        for job in jobs:
+            url = f"http://{self.jobmanagerHostname}/jobs/{job}?mode=cancel"
+            status = requests.patch(url)
+            status.raise_for_status()
+        return True
+    
     def update_jobs(self):
         self.rwlock.acquire_write()
         jobs = self.get_jobs()

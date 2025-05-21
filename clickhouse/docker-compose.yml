@@ -11,8 +11,14 @@ services:
       CLICKHOUSE_DB: default
       CLICKHOUSE_USER: user
       CLICKHOUSE_PASSWORD: password
+    networks:
+      - kafka_default
 
 volumes:
   clickhouse_data:
   clickhouse_logs:
+
+networks:
+  kafka_default:
+    external: true
 # gui interface http://localhost:8123/play

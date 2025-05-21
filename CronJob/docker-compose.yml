@@ -12,8 +12,15 @@ services:
     image: userPopularity-cronjob
     build: ./userPopularity
     environment:
-      RANK_PATH: "."
-      BETA: 0.9
+      CLICKHOUSE_HOST: clickhouse-server-1
+      CLICKHOUSE_USER: user
+      CLICKHOUSE_PASSWORD: password
+    networks:
+      - clickhouse_default
+  friendRecommendation:
+    image: friendRecommendation-cronjob
+    build: ./friendRecommendation
+    environment:
       CLICKHOUSE_HOST: clickhouse-server-1
       CLICKHOUSE_USER: user
       CLICKHOUSE_PASSWORD: password
