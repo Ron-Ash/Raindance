@@ -37,7 +37,7 @@ def following_mutuals(G, idMap):
 
 if __name__ == "__main__":
     client = clickhouse_connect.get_client(host=os.getenv("CLICKHOUSE_HOST", 'localhost'), port=8123, username=os.getenv("CLICKHOUSE_USER", 'user'), password=os.getenv("CLICKHOUSE_PASSWORD",'password'))
-    dfs_stream = client.query_df_stream('SELECT user, follows from socialNetwork_followers;')
+    dfs_stream = client.query_df_stream('SELECT `user`, `follows` from socialNetwork_followers FINAL;')
     dfs = []
     with dfs_stream:
         for df in dfs_stream:
