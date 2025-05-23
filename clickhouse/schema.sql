@@ -6,13 +6,13 @@ CREATE OR REPLACE TABLE location(
     `bio` String,
     `imgPath` LowCardinality(String),
 )ENGINE = ReplacingMergeTree
-ORDER BY (country, city)
+ORDER BY (`country`, `city`)
 
 CREATE OR REPLACE TABLE socialNetwork_chats(
     `users` Array(String),
     `topic` String DEFAULT generateUUIDv4()
 )ENGINE = MergeTree
-ORDER BY (users);
+ORDER BY (`users`);
 
 
 ----------------------------------------------
@@ -53,12 +53,34 @@ CREATE MATERIALIZED VIEW socialNetwork_unfollowSystem_materializedView TO social
 AS SELECT `user`, `follows`, now() AS `event_time`, -1 AS `sign` FROM socialNetwork_unfollowSystem_kafka;
 
 CREATE OR REPLACE TABLE socialNetwork_feedJobs(
-    user LowCardinality(String),
-    jobid String,
-    event_time DateTime DEFAULT now()
+    `user` LowCardinality(String),
+    `jobid` String,
+    `event_time` DateTime DEFAULT now()
 )ENGINE = ReplacingMergeTree
-ORDER BY (user);
+ORDER BY (`user`);
 
+CREATE OR REPLACE TABLE socialNetwork_postStorageSystem_kafka(
+    `time`  STRING,
+    `author` STRING,
+    `message` STRING,
+    `attachmentPath` STRING
+)ENGINE = Kafka(
+   'broker-1:19092,broker-2:19092,broker-3:19092',
+   '^socialNetwork_postStream_.*',
+   'clickhouse-socialNetwork_followSystem_kafka-consumer-group',
+   'JSONEachRow'
+);
+
+CREATE OR REPLACE TABLE socialNetwork_postStorage(
+    `time`  STRING,
+    `author` STRING,
+    `message` STRING,
+    `attachmentPath` STRING
+)ENGINE = MergeTree
+ORDER BY (`author`, `time`);
+
+CREATE MATERIALIZED VIEW socialNetwork_postStorageSystem_materializedView TO socialNetwork_postStorage
+AS SELECT `time`, `author`, `message`, `attachmentPath` FROM socialNetwork_postStorageSystem_kafka;
 -- INSERT INTO socialNetwork_followers (user, follows) VALUES ('D', 'A'), ('D', 'B'), ('B', 'C'), 
 -- ('C', 'B'), ('E', 'B'), ('E', 'D'), ('E', 'F'), ('F', 'E'), ('F', 'B'), ('g', 'B'), ('h', 'B'), ('i', 'B'),
 -- ('j', 'E'), ('k', 'E');
