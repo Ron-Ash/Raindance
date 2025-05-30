@@ -3,14 +3,14 @@ CREATE OR REPLACE TABLE socialNetwork_followers (
     `follows` STRING,
     `event_time` TIMESTAMP(3),
     `sign` INT,
-    PRIMARY KEY (`user`) NOT ENFORCED,
+    PRIMARY KEY (`user`, `follows`) NOT ENFORCED,
     WATERMARK FOR `event_time` AS `event_time`
 ) WITH (
     'connector'='upsert-kafka',
     'topic'='socialNetwork_followers',
-    'key.format'='raw',
+    'key.format'='json',
     'value.format'='json',
-    'value.fields-include' = 'EXCEPT_KEY',
+    'value.fields-include'='EXCEPT_KEY',
     'properties.bootstrap.servers'='broker-1:19092,broker-2:19092,broker-3:19092'
 );
 
@@ -23,8 +23,8 @@ CREATE OR REPLACE TABLE socialNetwork_follow (
     'key.format'='raw',
     'key.fields'='user',
     'value.format'='json',
-    'value.fields-include' = 'EXCEPT_KEY',
-    'scan.startup.mode'='earliest-offset',
+    'value.fields-include'='EXCEPT_KEY',
+    'scan.startup.mode'='latest-offset',
     'properties.bootstrap.servers'='broker-1:19092,broker-2:19092,broker-3:19092'
 );
 
@@ -67,12 +67,12 @@ CREATE OR REPLACE TABLE socialNetwork_feedStream (
     `event_time`  TIMESTAMP(3),
     `message` STRING,
     `attachmentPath` STRING,
-    PRIMARY KEY (`recipient`) NOT ENFORCED,
+    PRIMARY KEY (`recipient`, `author`, `event_time`) NOT ENFORCED,
     WATERMARK FOR `event_time` AS `event_time`
 ) WITH (
     'connector'='upsert-kafka',
     'topic'='socialNetwork_feedStream',
-    'key.format'='raw',
+    'key.format'='json',
     'value.format'='json',
     'value.fields-include' = 'EXCEPT_KEY',
     'properties.bootstrap.servers'='broker-1:19092,broker-2:19092,broker-3:19092'

@@ -151,5 +151,5 @@ volumes:
 # enter broker: $ docker exec --workdir /opt/kafka/bin/ -it broker-1 sh
 # create topic: $ ./kafka-topics.sh --bootstrap-server broker-1:19092,broker-2:19092,broker-3:19092 --create --topic test-topic
 # list topics: $ ./kafka-topics.sh --bootstrap-server broker-1:19092,broker-2:19092,broker-3:19092 --list
-# consume data: $ ./kafka-console-consumer.sh --bootstrap-server broker-1:19092,broker-2:19092,broker-3:19092 --topic test-topic --from-beginning
-# produce data: $ ./kafka-console-producer.sh --bootstrap-server broker-1:19092,broker-2:19092,broker-3:19092 --topic test-topic
+# consume data: $ ./kafka-console-consumer.sh --bootstrap-server broker-1:19092,broker-2:19092,broker-3:19092 --topic test-topic --from-beginning --property print.key=true --property key.separator=:
+# produce data: $ ./kafka-console-producer.sh --bootstrap-server broker-1:19092,broker-2:19092,broker-3:19092 --topic test-topic  --property parse.key=true --property key.separator=:
