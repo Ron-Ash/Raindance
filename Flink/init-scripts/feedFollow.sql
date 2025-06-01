@@ -1,10 +1,10 @@
 CREATE OR REPLACE TABLE socialNetwork_followers (
     `user` STRING,
     `follows` STRING,
-    `event_time` TIMESTAMP(3),
+    `eventTime` TIMESTAMP(3),
     `sign` INT,
     PRIMARY KEY (`user`, `follows`) NOT ENFORCED,
-    WATERMARK FOR `event_time` AS `event_time`
+    WATERMARK FOR `eventTime` AS `eventTime`
 ) WITH (
     'connector'='upsert-kafka',
     'topic'='socialNetwork_followers',
@@ -28,7 +28,7 @@ CREATE OR REPLACE TABLE socialNetwork_follow (
     'properties.bootstrap.servers'='broker-1:19092,broker-2:19092,broker-3:19092'
 );
 
-INSERT INTO socialNetwork_followers SELECT follow.`user` AS `user`, follow.`follows` AS `follows`, NOW() AS `event_time`, 1 AS `sign` FROM socialNetwork_follow AS follow;
+INSERT INTO socialNetwork_followers SELECT follow.`user` AS `user`, follow.`follows` AS `follows`, NOW() AS `eventTime`, 1 AS `sign` FROM socialNetwork_follow AS follow;
 
 CREATE OR REPLACE TABLE socialNetwork_unfollow (
     `user` STRING,
@@ -44,7 +44,7 @@ CREATE OR REPLACE TABLE socialNetwork_unfollow (
     'properties.bootstrap.servers'='broker-1:19092,broker-2:19092,broker-3:19092'
 );
 
-INSERT INTO socialNetwork_followers SELECT unfollow.`user` `user`, unfollow.`follows` `follows`, NOW() AS `event_time`, -1 AS `sign` FROM socialNetwork_unfollow AS unfollow;
+INSERT INTO socialNetwork_followers SELECT unfollow.`user` `user`, unfollow.`follows` `follows`, NOW() AS `eventTime`, -1 AS `sign` FROM socialNetwork_unfollow AS unfollow;
 
 CREATE OR REPLACE TABLE socialNetwork_postStream (
     `author` STRING,
@@ -64,11 +64,11 @@ CREATE OR REPLACE TABLE socialNetwork_postStream (
 CREATE OR REPLACE TABLE socialNetwork_feedStream (
     `recipient` STRING,
     `author` STRING,
-    `event_time`  TIMESTAMP(3),
+    `eventTime`  TIMESTAMP(3),
     `message` STRING,
     `attachmentPath` STRING,
-    PRIMARY KEY (`recipient`, `author`, `event_time`) NOT ENFORCED,
-    WATERMARK FOR `event_time` AS `event_time`
+    PRIMARY KEY (`recipient`, `author`, `eventTime`) NOT ENFORCED,
+    WATERMARK FOR `eventTime` AS `eventTime`
 ) WITH (
     'connector'='upsert-kafka',
     'topic'='socialNetwork_feedStream',
