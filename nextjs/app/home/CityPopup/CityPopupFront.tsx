@@ -20,20 +20,19 @@ export default function CityPopupFront() {
   return (
     <Popup active={open}>
       {pickedLocation && (
-        <>
+        <div className="relative flex flex-col h-full p-1">
           <div className="font-extrabold text-5xl pb-4">
             {pickedLocation?.city}
           </div>
-          <div className="rounded-xl h-[200px] flex items-center justify-center overflow-hidden">
+          <div className="relative rounded-xl h-[200px] flex items-center justify-center overflow-hidden">
             <Image
               alt={"image"}
-              width={1000}
-              height={150}
               priority={true}
               src={pickedLocation?.imgPath ?? ""}
+              fill
             />
           </div>
-          <p className="mt-2 max-h-[350px] overflow-auto text-base font-bold">
+          <p className="mt-2 flex-1 overflow-auto text-base font-bold">
             {pickedLocation?.bio}
           </p>
 
@@ -56,10 +55,10 @@ export default function CityPopupFront() {
               />
             </svg>
           </button>
-          <button className="absolute bottom-2 h-[50px] w-[92%] border-2 rounded-l-2xl rounded-r-md bg-blue-500 bg-opacity-0 hover:bg-opacity-100 ease-in-out duration-250 hover:border-blue-500">
+          <button className="mt-2 h-[50px] w-full border-2 rounded-l-2xl rounded-r-md bg-blue-500 bg-opacity-0 hover:bg-opacity-100 ease-in-out duration-200 hover:border-blue-500">
             Explore Weather
           </button>
-        </>
+        </div>
       )}
     </Popup>
   );

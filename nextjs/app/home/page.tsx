@@ -25,7 +25,7 @@ export async function handleRetrieveRecords() {
   });
 
   const rows = await client.query({
-    query: "select * from worldMap_cityLocation;",
+    query: "select * from worldMap_cityLocation final;",
     format: "JSONEachRow",
   });
 
