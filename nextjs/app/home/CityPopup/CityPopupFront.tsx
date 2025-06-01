@@ -33,7 +33,9 @@ export default function CityPopupFront() {
               src={pickedLocation?.imgPath ?? ""}
             />
           </div>
-          <p className="pt-4">{pickedLocation?.bio}</p>
+          <p className="mt-2 max-h-[350px] overflow-auto text-base font-bold">
+            {pickedLocation?.bio}
+          </p>
 
           <button
             className="absolute top-1 right-1"

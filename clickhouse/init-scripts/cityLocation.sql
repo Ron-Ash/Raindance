@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE location(
+CREATE OR REPLACE TABLE worldMap_cityLocation(
     `city` LowCardinality(String),
     `country` LowCardinality(String),
     `latitude` Decimal32(6),
