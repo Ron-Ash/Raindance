@@ -1,10 +1,9 @@
 import LocationTable from "@/app/Home/LocationTable";
 import DynamicMap from "@/components/Map/DynamicMap";
 import { LocationProvider } from "@/context/locationContext";
-import { createClient } from "@clickhouse/client-web";
 import CityPopupFront from "./CityPopup/CityPopupFront";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { minIoGetObjectUrl } from "@/components/MinIOInterface";
+import { clickhouseGetRecords } from "@/components/ClickhouseInterface";
 
 interface locationData {
   city: string;
@@ -15,53 +14,15 @@ interface locationData {
   imgPath: string;
 }
 
-export async function handleRetrieveRecords() {
-  "use server";
-
-  const client = createClient({
-    url: process.env.CLICKHOUSE_HOST ?? "http://localhost:8123",
-    username: process.env.CLICKHOUSE_USER ?? "user",
-    password: process.env.CLICKHOUSE_PASSWORD ?? "password",
-  });
-
-  const rows = await client.query({
-    query: "select * from worldMap_cityLocation final;",
-    format: "JSONEachRow",
-  });
-
-  const data = await rows.json();
-  return data as locationData[];
-}
-
-export async function handleRetrieveObjects(path: string) {
-  "use server";
-
-  const client = new S3Client({
-    endpoint: "http://localhost:9000",
-    region: "us-east-1",
-    credentials: {
-      accessKeyId: "admin",
-      secretAccessKey: "password",
-    },
-    forcePathStyle: true,
-  });
-  const getCmd = new GetObjectCommand({
-    Bucket: "worldmap",
-    Key: path,
-  });
-  const url = await getSignedUrl(client, getCmd, {
-    expiresIn: 60 * 5,
-  });
-  return url;
-}
-
 export default async function Page() {
   async function handleRetrieveCities() {
     "use server";
 
-    const data = await handleRetrieveRecords();
+    const data = (await clickhouseGetRecords(
+      "select * from worldMap_cityLocation final;"
+    )) as locationData[];
     const mapped = data.map(async (d) => {
-      const url = await handleRetrieveObjects(d.imgPath);
+      const url = await minIoGetObjectUrl("worldmap", d.imgPath);
       return { ...d, imgPath: url };
     });
     const fullyResolved: locationData[] = await Promise.all(mapped);
