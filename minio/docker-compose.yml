@@ -1,0 +1,21 @@
+name: minio
+services:
+  server:
+    image: minio/minio:latest
+    ports:
+      - 9000:9000 # MinIO API
+      - 9001:9001 # MinIO Console (web UI)
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: admin # minimum 3 characters
+      MINIO_ROOT_PASSWORD: admin123 # minimum 8 characters
+    command:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+volumes:
+  minio_data:
+# API: http://172.19.0.2:9000  http://127.0.0.1:9000
+# WebUI: http://172.19.0.2:9001 http://127.0.0.1:9001
