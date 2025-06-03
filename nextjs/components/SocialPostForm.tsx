@@ -67,7 +67,8 @@ export default function SocialPostForm({
   }
 
   return (
-    <div className="rounded-3xl border-3 border-stone-700 relative flex flex-col w-[520px] p-2 gap-2">
+    <div className="grid relative p-2 gap-2">
+      <p className="font-bold text-2xl text-blue-500">Create a Post:</p>
       <div className="rounded-3xl border-3 border-stone-700 relative flex flex-col w-[500px] h-[350px] p-2 gap-2">
         <div className="flex w-full h-[125px] gap-2">
           <Tooltip
@@ -126,25 +127,27 @@ export default function SocialPostForm({
           </Tooltip>
         </div>
         <div className="relative h-full w-full">
-          <button
-            className="rounded-full absolute top-1 right-1 z-10 w-[15px] h-[15px] flex items-center justify-center bg-black hover:cursor-grab active:cursor-grabbing"
-            onClick={() => setFile(null)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
+          {file && (
+            <button
+              className="rounded-full absolute top-1 right-1 z-10 w-[15px] h-[15px] flex items-center justify-center bg-black hover:cursor-grab active:cursor-grabbing"
+              onClick={() => setFile(null)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18 18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
           <Tooltip
             showArrow
             content={file ? "change attachment" : "add attachment"}

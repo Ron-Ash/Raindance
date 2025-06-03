@@ -51,7 +51,7 @@ export async function POST(request: Request) {
             value: `{"message": "${message.replace(
               '"',
               "'"
-            )}", "attachmentPath": "${file !== undefined ? "null" : path}"}`,
+            )}", "attachmentPath": "${file !== undefined ? path : "null"}"}`,
           },
         ],
       }),

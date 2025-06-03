@@ -27,6 +27,7 @@ async function ensureTopic(topicName: string) {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const topic = url.searchParams.get("topic") ?? "test-topic";
+  const user = url.searchParams.get("user") ?? "anonymous";
   const kafka = new Kafka({
     clientId: "nextjs-app",
     brokers: ["localhost:29092", "localhost:39092", "localhost:49092"],
@@ -50,10 +51,15 @@ export async function GET(request: Request) {
       consumer
         .run({
           eachMessage: async ({ message }) => {
+            const key = message.key?.toString() ?? "anonymous";
+            if (key !== user) return;
+
             const payload = message.value?.toString() ?? "<no-payload>";
             // SSE frame: "data: …\n\n"
             controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify(payload)}\n\n`)
+              encoder.encode(
+                `data: ${JSON.stringify({ key: key, value: payload })}\n\n`
+              )
             );
           },
         })
