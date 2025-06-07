@@ -39,3 +39,9 @@ CREATE OR REPLACE TABLE socialNetwork_posts(
 	`attachmentEmbedding` Array(Float32),
 )ENGINE = MergeTree()
 ORDER BY (`author`, `eventTime`);
+
+CREATE OR REPLACE VIEW socialNetwork_mutualFollowers AS
+SELECT DISTINCT least(fA.user, fB.user) AS `user`, greatest(fA.user, fB.user) AS `follows`
+FROM socialNetwork_followers AS fA 
+JOIN socialNetwork_followers AS fB ON fA.follows = fB.follows AND fA.user <> fB.user
+WHERE fA.sign = 1 AND fB.sign = 1;
