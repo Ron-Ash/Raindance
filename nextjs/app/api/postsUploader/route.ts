@@ -14,6 +14,7 @@ export async function POST(request: Request) {
   }
   const data = await request.formData();
   let file = data.get("file");
+  console.log(file);
   let message = data.get("message");
   if (!file && !message) return NextResponse.json({ success: false });
 
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
   }
   const path = `${key}/posts/${Date.now()}`;
 
-  console.log(file, !file, file == null);
+  console.log(file, !file, file == null, file !== undefined);
   console.log(message, !message, message == null);
   console.log(undefined as unknown as string);
 
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
             value: `{"message": "${message.replace(
               '"',
               "'"
-            )}", "attachmentPath": "${file !== undefined ? path : "null"}"}`,
+            )}", "attachmentPath": "${!file ? "null" : path}"}`,
           },
         ],
       }),
