@@ -1,6 +1,6 @@
 "use client";
 
-import SocialPostCard from "@/components/SocialPostCard";
+import SocialPostCard from "@/components/SocialPostCard/SocialPostCard";
 import { useEffect, useState } from "react";
 
 export default function SocialFeed({
@@ -13,6 +13,14 @@ export default function SocialFeed({
   const [messages, setMessages] = useState<
     { key: string; value: { message: string; attachmentPath: string } }[]
   >([]);
+
+  useEffect(() => {
+    console.log("useEffect runs");
+    const interval = setInterval(async () => {
+      console.log("Hello world");
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [messages]);
 
   useEffect(() => {
     const evt = new EventSource(
