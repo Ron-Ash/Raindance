@@ -3,12 +3,26 @@
 import SocialPostCard from "@/components/SocialPostCard/SocialPostCard";
 import { useEffect, useState } from "react";
 
+interface postData {
+  author: string;
+  eventTime: string;
+  message: string;
+  attachmentPath: string;
+  reply_author: string;
+  reply_eventTime: string;
+}
+
 export default function SocialFeed({
   topic,
   user,
+  handleRetrieveRepliesF,
 }: {
   topic: string;
   user: string;
+  handleRetrieveRepliesF: (
+    author: string,
+    eventTime: string
+  ) => Promise<postData[]>;
 }) {
   const [messages, setMessages] = useState<
     { key: string; value: { message: string; attachmentPath: string } }[]
@@ -63,10 +77,13 @@ export default function SocialFeed({
           <SocialPostCard
             key={index}
             profilePic={""}
+            author={author}
+            eventTime={`2025-06-03`}
             message={values.message ?? ""}
             attachmentPath={values.attachmentPath}
-            time={`2025-06-03`}
-            author={author}
+            reply_author={author}
+            reply_eventTime={`2025-06-02`}
+            handleRetrieveRepliesFF={handleRetrieveRepliesF}
           />
         );
       })}

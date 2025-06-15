@@ -5,19 +5,14 @@ import Image from "next/image";
 
 export default function PostImage({
   expanded,
-  collapsedOpacity,
   attachmentPath,
 }: {
   expanded: boolean;
-  collapsedOpacity: number;
   attachmentPath: string;
 }) {
   const variants = {
     expanded: { opacity: 1, height: "auto" },
-    collapsed: {
-      opacity: collapsedOpacity,
-      height: collapsedOpacity != 0 ? "auto" : 0,
-    },
+    collapsed: { opacity: 0, height: 0 },
   };
   return (
     <AnimatePresence initial={false} mode="wait">

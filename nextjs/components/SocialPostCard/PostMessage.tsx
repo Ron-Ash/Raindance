@@ -5,20 +5,15 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function PostMessage({
   expanded,
-  collapsedOpacity,
   message,
 }: {
   expanded: boolean;
-  collapsedOpacity: number;
   message: string;
 }) {
   const [expandMessage, setExpandMessage] = useState(false);
   const variants = {
     expanded: { opacity: 1, height: "auto" },
-    collapsed: {
-      opacity: collapsedOpacity,
-      height: collapsedOpacity != 0 ? "auto" : 0,
-    },
+    collapsed: { opacity: 0, height: 0 },
   };
   return (
     <AnimatePresence initial={false} mode="wait">

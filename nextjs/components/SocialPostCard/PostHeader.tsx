@@ -6,23 +6,19 @@ import Image from "next/image";
 
 export default function PostHeader({
   expanded,
-  collapsedOpacity,
   profilePic,
   author,
 }: {
   expanded: boolean;
-  collapsedOpacity: number;
   profilePic: string;
   author: string;
 }) {
   const [following, setFollowing] = useState(false);
   const variants = {
     expanded: { opacity: 1, height: "auto" },
-    collapsed: {
-      opacity: collapsedOpacity,
-      height: collapsedOpacity != 0 ? "auto" : 0,
-    },
+    collapsed: { opacity: 0, height: 0 },
   };
+
   return (
     <AnimatePresence initial={false} mode="wait">
       {true && (

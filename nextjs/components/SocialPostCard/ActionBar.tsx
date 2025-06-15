@@ -5,12 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function ActionBar({
   expanded,
-  collapsedOpacity,
   time,
   author,
 }: {
   expanded: boolean;
-  collapsedOpacity: number;
   time: string;
   author: string;
 }) {
@@ -19,10 +17,7 @@ export default function ActionBar({
 
   const variants = {
     expanded: { opacity: 1, height: "auto" },
-    collapsed: {
-      opacity: collapsedOpacity,
-      height: collapsedOpacity != 0 ? "auto" : 0,
-    },
+    collapsed: { opacity: 0, height: 0 },
   };
 
   async function handleLike() {
